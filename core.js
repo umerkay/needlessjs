@@ -134,10 +134,13 @@ class Sketch {
         //#endregion
 
         //add canvases if not already full
-        for (let i = this.canvases.length; i < layers; i++) this.createCanvas();
+        for (let i = this.canvases.length; i < layers; i++) this.addCanvas();
         //default rectangle draw mode
         this.rectMode("CENTER");
         this.ctxs.forEach(ctx => ctx.scale(scaleX, scaleY));
+
+        this.entities = [];
+
     }
 
     init(f) {
@@ -147,6 +150,11 @@ class Sketch {
         clearGlobal();
 
         return this;
+    }
+
+    setLoop(f) {
+        if(typeof f != "function") throw new Error("setLoop requires function as first parameter, got " + typeof f);
+        return this._loop = f;
     }
 
     loop(f) {
@@ -182,15 +190,16 @@ class Sketch {
         }
     }
 
-    stopLoop() {
+    stopLoop(duration) {
         this._paused = true;
+        if(typeof duration == "number") setTimeout(sketch => sketch.doLoop(), duration, this);
     }
 
     doLoop() {
         this._paused = false;
     }
 
-    createCanvas(canvas) {
+    addCanvas(canvas) {
         if (!canvas) { //if canvas not passed, create new
             canvas = document.createElement('canvas');
             canvas.id = "db-" + (this.canvases.length + 1);
@@ -218,7 +227,7 @@ class Sketch {
         this.currentCtx = this.ctxs[layer];
     }
 
-    frameCount() {
+    loopCount() {
         return this._frameCount;
     }
 
@@ -235,6 +244,11 @@ class Sketch {
     }
 
     background(r, g, b, a) {
+        if(r instanceof HTMLImageElement) {
+            this.rectMode("CORNER");
+            this.image(r, 0, 0, this.width, this.height);
+            return;
+        }
         this.save();
         this.fill(r, g, b, a);
         this.noStroke();
@@ -271,6 +285,7 @@ class Sketch {
     }
 
     stroke(r, g, b, a) {
+        if(r === null || r === undefined) return this.noStroke();
         if (typeof r == 'string') {
             this.currentCtx.strokeStyle = r;
         } else if (typeof r == 'number' && b == undefined) {
@@ -293,6 +308,7 @@ class Sketch {
     }
 
     fill(r, g, b, a) {
+        if(r === null || r === undefined) return this.noFill();
         if (typeof r == 'string') {
             this.currentCtx.fillStyle = r;
         } else if (typeof r == 'number' && b == null) {

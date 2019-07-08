@@ -227,7 +227,7 @@ class Vector {
         return this;
     }
 
-    mult(m) {
+    mult(vector) {
         if (vector instanceof Vector) {
             this.x *= vector.x;
             this.y *= vector.y;
@@ -238,7 +238,7 @@ class Vector {
         return this
     }
 
-    div(d) {
+    div(vector) {
         if (vector instanceof Vector) {
             this.x /= vector.x;
             this.y /= vector.y;
