@@ -424,7 +424,7 @@ const key = {
     }
 };
 
-document.on("ready", () => {
+window.onload = () => {
     document.body.addEventListener("keydown", evt => key.states[evt.key] = true);
     document.body.addEventListener("keyup", evt => key.states[evt.key] = false);
 });
