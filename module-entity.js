@@ -36,9 +36,15 @@ class Entity {
         else if (!(sketch instanceof Sketch) && Sketches.curr == null) throw new Error("Outside sketch method: Must pass a Sketch instance as second parameter");
         else {
             entity.holder = sketch || Sketches.curr;
+            if(!entity.holder.entities) entity.holder.entities = [];
             entity.holder.entities.push(entity);
             return entity;
         }
+    }
+
+    static get(sketch) {
+        if (!(sketch instanceof Sketch) && Sketches.curr == null) throw new Error("Outside sketch method: Must pass a Sketch instance as second parameter");
+        else return (sketch || Sketches.curr).entities;
     }
 
     static getByName(name, sketch) {

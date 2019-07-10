@@ -84,7 +84,7 @@ class Sketch {
     } = {}) {
         //own mouse object literal with values relative to self
         this.mouse = {
-            pos: new Vector(0, 0),
+            position: new Vector(0, 0),
             downPos: new Vector(0, 0),
             down: false,
             button: -1,
@@ -121,12 +121,12 @@ class Sketch {
         //mouse events for every sketch
         this.container.addEventListener("mousemove", (evt) => {
             let rect = this.container.getBoundingClientRect();
-            this.mouse.pos.x = Math.floor((evt.clientX - rect.left));
-            this.mouse.pos.y = Math.floor((evt.clientY - rect.top));
+            this.mouse.position.x = Math.floor((evt.clientX - rect.left));
+            this.mouse.position.y = Math.floor((evt.clientY - rect.top));
         });
         this.container.addEventListener("mousedown", (evt) => {
             this.mouse.button = evt.button;
-            this.mouse.downPos.set(this.mouse.pos.x, this.mouse.pos.y);
+            this.mouse.downPos.set(this.mouse.position.x, this.mouse.position.y);
         });
         this.container.addEventListener("mouseup", (evt) => {
             this.mouse.button = -1;
@@ -138,8 +138,6 @@ class Sketch {
         //default rectangle draw mode
         this.rectMode("CENTER");
         this.ctxs.forEach(ctx => ctx.scale(scaleX, scaleY));
-
-        this.entities = [];
 
     }
 

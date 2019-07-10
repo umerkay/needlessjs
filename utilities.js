@@ -345,18 +345,21 @@ function distSq(x1, y1, x2, y2) {
     return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
 }
 
+const floor = Math.floor;
+
 function random(to, from, int) {
+    if(to instanceof Array) return to[floor(random(to.length))]
     if (from != null) {
         if (int) {
-            return Math.floor(Math.random() * (to - from)) + (from);
+            return floor(Math.random() * (to - from)) + (from);
         } else {
             return Math.random() * (to - from) + (from);
         }
     } else if (to != null) {
         if (int) {
-            return Math.floor(Math.random() * (to));
+            return floor(Math.random() * (to));
         } else {
-            return Math.random() * (to);
+            return random() * (to);
         }
     } else {
         return Math.random();

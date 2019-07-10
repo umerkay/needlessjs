@@ -13,15 +13,15 @@ new Sketch(
 				fill(255,0,0);
 				circle(this.position.x, this.position.y, this.radius)
 			},
-			update() {
-				this.position.add(Vector.random2D().mult(2).sub(1));
-			},
 			radius: 30
 		}));
 	})
 	.loop(function () {
 		clear();
-		Entity.loop();
+		Entity.get().forEach(entity => {
+			entity.update();
+			entity.render();
+		});
 	})
 	.on("mousemove", function () {
 
