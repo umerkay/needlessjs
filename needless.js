@@ -151,7 +151,7 @@ class Sketch {
     }
 
     setLoop(f) {
-        if(typeof f != "function") throw new Error("setLoop requires function as first parameter, got " + typeof f);
+        if (typeof f != "function") throw new Error("setLoop requires function as first parameter, got " + typeof f);
         return this._loop = f;
     }
 
@@ -190,7 +190,7 @@ class Sketch {
 
     stopLoop(duration) {
         this._paused = true;
-        if(typeof duration == "number") setTimeout(sketch => sketch.doLoop(), duration, this);
+        if (typeof duration == "number") setTimeout(sketch => sketch.doLoop(), duration, this);
     }
 
     doLoop() {
@@ -242,7 +242,7 @@ class Sketch {
     }
 
     background(r, g, b, a) {
-        if(r instanceof HTMLImageElement) {
+        if (r instanceof HTMLImageElement) {
             this.rectMode("CORNER");
             this.image(r, 0, 0, this.width, this.height);
             return;
@@ -283,7 +283,7 @@ class Sketch {
     }
 
     stroke(r, g, b, a) {
-        if(r === null || r === undefined) return this.noStroke();
+        if (r === null || r === undefined) return this.noStroke();
         if (typeof r == 'string') {
             this.currentCtx.strokeStyle = r;
         } else if (typeof r == 'number' && b == undefined) {
@@ -306,7 +306,7 @@ class Sketch {
     }
 
     fill(r, g, b, a) {
-        if(r === null || r === undefined) return this.noFill();
+        if (r === null || r === undefined) return this.noFill();
         if (typeof r == 'string') {
             this.currentCtx.fillStyle = r;
         } else if (typeof r == 'number' && b == null) {
@@ -424,8 +424,10 @@ const key = {
     }
 };
 
-document.body.addEventListener("keydown", evt => key.states[evt.key] = true);
-document.body.addEventListener("keyup", evt => key.states[evt.key] = false);
+document.on("ready", () => {
+    document.body.addEventListener("keydown", evt => key.states[evt.key] = true);
+    document.body.addEventListener("keyup", evt => key.states[evt.key] = false);
+});
 
 var mouse = null;
 var width = window.innerWidth; var height = window.innerHeight;
@@ -460,7 +462,7 @@ function clearGlobal() {
 }
 
 const fnames = Object.getOwnPropertyNames(Sketch.prototype).slice(4);
-for(let i = 0; i < fnames.length; i++) {
+for (let i = 0; i < fnames.length; i++) {
     const f = fnames[i];
     eval("function " + f + "(...args) { return Sketches.curr." + f + "(...args); }");
 }
@@ -720,7 +722,7 @@ class Vector {
         return new Vector(-this.y, this.x);
     }
 
-    set(x,y) {
+    set(x, y) {
         this.x = x; this.y = y;
     }
 
@@ -777,7 +779,7 @@ function distSq(x1, y1, x2, y2) {
 const floor = Math.floor;
 
 function random(to, from, int) {
-    if(to instanceof Array) return to[floor(random(to.length))]
+    if (to instanceof Array) return to[floor(random(to.length))]
     if (from != null) {
         if (int) {
             return floor(Math.random() * (to - from)) + (from);
@@ -833,7 +835,7 @@ class Entity {
         else if (!(sketch instanceof Sketch) && Sketches.curr == null) throw new Error("Outside sketch method: Must pass a Sketch instance as second parameter");
         else {
             entity.holder = sketch || Sketches.curr;
-            if(!entity.holder.entities) entity.holder.entities = [];
+            if (!entity.holder.entities) entity.holder.entities = [];
             entity.holder.entities.push(entity);
             return entity;
         }
@@ -855,12 +857,12 @@ class Entity {
     static loop(sketch) {
         if (!(sketch instanceof Sketch) && Sketches.curr == null) throw new Error("Outside sketch method: Must pass a Sketch instance as second parameter");
         else {
-            if(sketch) fetchIntoGlobal(sketch);
+            if (sketch) fetchIntoGlobal(sketch);
             (sketch || Sketches.curr).entities.forEach(entity => {
                 entity.update();
                 entity.render(entity);
             });
-            if(sketch) clearGlobal;
+            if (sketch) clearGlobal;
         }
     }
 }
