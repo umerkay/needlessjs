@@ -24,7 +24,7 @@ new Sketch(
 		});
 	})
 	.on("mousemove", function () {
-
+		circle(mouse.position.x, mouse.position.y, 5);
 	});
 
 Sketches.loop(function () {
