@@ -1,0 +1,42 @@
+.cover {
+    height: 55vh;
+    background: url("../src/bg.png");
+    color: var(--header-color);
+    font-family: 'Century Gothic';
+    position: sticky;
+    top: 0px;
+    z-index: -1;
+}
+
+.cover #by {
+    opacity: 1;
+    font-size: 2rem;
+    text-align: right;
+    font-weight: normal;
+    font-family: 'Century Gothic';
+}
+
+footer.main {
+    background: url("../src/bg.png");
+    color: var(--header-color);
+    position: sticky;
+    bottom: 0px;
+    z-index: -1;
+}
+
+.cover .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover h1 {
+    font-size: 6rem;
+}
+
+#big-logo {
+    width: 225px;
+    margin-right: 2rem;
+    border: 6px white solid;
+}

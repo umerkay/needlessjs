@@ -1,0 +1,98 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+:root {
+    --header-color: white;
+
+    --footer-color: white;
+
+    --body-color: black;
+    --body-bg: white;
+
+    --primary-color: #220761;
+    --primary-dark: #17063f;
+    --primary-color-hover: #230861;
+    --secondary-color: orange;
+    --secondary-color-hover: #ef7300;
+
+    /* --secondary-color: rgb(180,10,10);
+    --secondary-color-hover: rgb(160,10,10);
+    --primary-color: #ff932d;
+    --primary-color-hover: #ffa52f; */
+    /* --primary-color-hover: orange; */
+
+    font-size: 16px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--body-bg);
+    color: var(--body-color);
+    /* line-height: 1rem; */
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+}
+.btn:hover {
+    /* background-color: var(--primary-color-hover); */
+    opacity: 0.8;
+    color: white;
+}
+
+.btn.light {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn.light:hover {
+    /* background-color: var(--secondary-color-hover); */
+    color: white;
+}
+
+
+.primary-text {
+    color: var(--primary-color);
+}
+
+.container {    
+    max-width: 1150px;
+    margin: auto;
+    padding: 5rem;
+}
+
+body::-webkit-scrollbar {
+    width: 4px;
+    position: relative;
+    right: 50px;
+}
+body::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-color);
+    opacity: 1;
+}
+
+p.lead a {
+    font-weight: bold;
+}

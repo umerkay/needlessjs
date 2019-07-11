@@ -1,0 +1,77 @@
+.cover .container {
+    flex-direction: column;
+}
+
+.cover h1 {
+    font-size: 4rem;
+}
+
+.cover {
+    height: auto;
+    padding: 3rem 0rem;
+}
+
+#big-logo {
+    width: 150px;
+    height: 150px;
+    margin-right: 0px;
+}
+
+footer.main .container {
+    padding: 3rem 1rem;
+}
+
+#navbar, #select {
+    flex-direction: column;
+}
+
+.container {
+    padding: 1rem;
+}
+
+.fr1fr1 {
+    grid-template-columns: 1fr;
+}
+
+main p.lead, main p.info, main p.tip {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+main h1 {
+    font-size: 3.5rem;
+}
+
+.fr2fr10 {
+    display: block;
+}
+
+.fr2fr2fr8 {
+    grid-template-columns: 1fr;
+}
+
+.fr2fr2fr8 *:nth-child(3n) {
+    border-bottom: 2px solid rgba(0,0,0,0.5);
+    padding-bottom: 1rem;
+}
+
+.fr2fr2fr8 * {
+    font-size: 1.3rem;
+}
+
+.fr2fr2fr8 *:last-child {
+    border-bottom: none;
+    padding-bottom: 0rem;
+}
+
+main h2 {
+    font-size: 3rem;
+}
+
+main h2.sub {
+    font-size: 2.25rem;
+}
+
+main h3 code {
+    font-size: 1.75rem;
+}

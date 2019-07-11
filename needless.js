@@ -72,10 +72,9 @@ const Sketches = {
 class Sketch {
     constructor({
         width = 400,
-        height = width || 400,
+        height = width,
         container,
         layers = 1,
-        erasePrevFrame = true, //
         frameRate = 30,
         scaleX = 1,
         scaleY = scaleX,
@@ -112,8 +111,23 @@ class Sketch {
             this.container.id = "sketch-" + (Sketches.all.length);
             document.body.appendChild(this.container);
         }
+        if (!this.container) {
+            throw new Error("Invalid container for sketch");
+        }
         this.container.style.display = "inline-block";
-        this.container.style.width = this.width; this.container.style.height = this.height;
+
+        if (this.width == "inherit") {
+            this.width = this.container.clientWidth;
+        } else {
+            this.container.style.width = this.width + "px";
+        }
+
+        if (this.height == "inherit") {
+            this.height = this.container.clientHeight;
+        } else {
+            this.container.style.height = this.height + "px";
+        }
+
         //bind name for accessing
         this.name = this.container.id || "sketch-" + (Sketches.all.length);
         this.mouse.name = this.name;
@@ -139,13 +153,17 @@ class Sketch {
         this.rectMode("CENTER");
         this.ctxs.forEach(ctx => ctx.scale(scaleX, scaleY));
 
+        this.colorMode(0);
+
     }
 
     init(f) {
         this._init = f || this._init;
-        fetchIntoGlobal(this);
-        f.bind(this)();
-        clearGlobal();
+        if (f) {
+            fetchIntoGlobal(this);
+            f.bind(this)();
+            clearGlobal();
+        }
 
         return this;
     }
@@ -296,6 +314,11 @@ class Sketch {
         this.currentCtx.doStroke = true;
     }
 
+    colorMode(mode) {
+        if (mode === 0 || mode == "rgb") this._colormode = "rgb";
+        else if (mode === 1 || mode == "hsb") this._colormode = "hsb";
+    }
+
     strokeWeight(weight) {
         this.currentCtx.lineWidth = weight;
         this.currentCtx.doStroke = true;
@@ -310,11 +333,11 @@ class Sketch {
         if (typeof r == 'string') {
             this.currentCtx.fillStyle = r;
         } else if (typeof r == 'number' && b == null) {
-            this.currentCtx.fillStyle = "rgba(" + r + ',' + r + ',' + r + ',' + (g / 100 || "1") + ")";
+            this.currentCtx.fillStyle = this._colormode + "a(" + r + ',' + r + ',' + r + ',' + (g / 100 || "1") + ")";
         } else if (typeof r == 'number' && b != null) {
-            this.currentCtx.fillStyle = "rgba(" + r + ',' + g + ',' + b + ',' + (a / 100 || "1") + ")";
+            this.currentCtx.fillStyle = this._colormode + "a(" + r + ',' + g + ',' + b + ',' + (a / 100 || "1") + ")";
         } else if (typeof r == 'object') {
-            this.currentCtx.fillStyle = "rgba(" + r.r + ',' + r.g + ',' + r.b + ',' + r.a + ")";
+            this.currentCtx.fillStyle = this._colormode + "a(" + r.r + ',' + r.g + ',' + r.b + ',' + r.a + ")";
         }
         this.currentCtx.doFill = true;
     }
@@ -427,7 +450,7 @@ const key = {
 window.onload = () => {
     document.body.addEventListener("keydown", evt => key.states[evt.key] = true);
     document.body.addEventListener("keyup", evt => key.states[evt.key] = false);
-});
+};
 
 var mouse = null;
 var width = window.innerWidth; var height = window.innerHeight;
@@ -461,7 +484,7 @@ function clearGlobal() {
     Sketches.curr = null;
 }
 
-const fnames = Object.getOwnPropertyNames(Sketch.prototype).slice(4);
+const fnames = Object.getOwnPropertyNames(Sketch.prototype).slice(5);
 for (let i = 0; i < fnames.length; i++) {
     const f = fnames[i];
     eval("function " + f + "(...args) { return Sketches.curr." + f + "(...args); }");
@@ -768,6 +791,12 @@ class Vector {
     }
 }
 
+// console.log("static random2D() { const vector = new Vector(random(), random()); vector.normalize(); return vector; } static add(v1, v2) { return new Vector(v1.x + v2.x, v1.y + v2.y); } static sub(v1, v2) { return new Vector(v1.x - v2.x, v1.y - v2.y); } static mult(v1, n) { return new Vector(v1.x * n, v1.y * n); } static div(v1, n) { return new Vector(v1.x / n, v1.y / n); } static normalize(v1) { return v1.copy().normalize(); } static div(v1, n) { return v1.copy().setMag(n); } static dist(v1, v2) { return sqrt((v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y)); } static dot(v1, v2) { return v1.x * v2.x + v1.y * v2.y; } static areEqual(v1, v2) { return v1.x == v2.x && v1.y == v2.y; }".split("static").map(name => {
+//     name = name.split('{')[0].slice(0, -1);
+//     return `<h3><code>&lt;Vector&gt;.${name}</code></h3>
+//     <p class="lead"></p>`
+// }).join("↵"));
+
 function dist(x1, y1, x2, y2) {
     return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
@@ -798,12 +827,12 @@ function random(to, from, int) {
 }
 
 class Entity {
-    constructor(x, y, { render, update, ...options }) {
+    constructor(x, y, { render, update, ...options } = {}) {
 
         this.position = new Vector(x, y);
         Object.assign(this, options);
-        if (typeof render == "function") this.setRender(render);
-        if (typeof update == "function") this.setUpdate(update);
+        this.setRender(render);
+        this.setUpdate(update);
     }
 
     setRender(f) {
@@ -822,11 +851,7 @@ class Entity {
 
     }
 
-    remove() {
-        this.doRemove = true;
-    }
-
-    removeNow() {
+    remove(entity) {
         this.holder.entities = this.holder.entities.filter(entity !== this);
     }
 
@@ -867,21 +892,21 @@ class Entity {
     }
 }
 
-const Render = {
-    circle(obj) {
-        if (!obj.radius) return new Error("Radius not set for shape circle");
+// const Render = {
+//     circle() {
+//         if (!obj.radius) return new Error("Radius not set for shape circle");
 
-        const sketch = obj.holder;
-        if (obj.fill) sketch.fill(obj.fill);
-        if (obj.stroke) sketch.stroke(obj.stroke);
-        obj.holder.circle(obj.position.x, obj.position.y, obj.radius);
-    },
-    rect(obj) {
-        if (!obj.width) return new Error("Width not set for shape rect");
+//         const sketch = obj.holder;
+//         if (obj.fill) sketch.fill(obj.fill);
+//         if (obj.stroke) sketch.stroke(obj.stroke);
+//         obj.holder.circle(obj.position.x, obj.position.y, obj.radius);
+//     },
+//     rect() {
+//         if (!obj.width) return new Error("Width not set for shape rect");
 
-        const sketch = obj.holder;
-        if (obj.fill) sketch.fill(obj.fill);
-        if (obj.stroke) sketch.stroke(obj.stroke);
-        obj.holder.rect(obj.position.x, obj.position.y, obj.width, obj.height);
-    }
-}
+//         const sketch = obj.holder;
+//         if (obj.fill) sketch.fill(obj.fill);
+//         if (obj.stroke) sketch.stroke(obj.stroke);
+//         obj.holder.rect(obj.position.x, obj.position.y, obj.width, obj.height);
+//     }
+// }

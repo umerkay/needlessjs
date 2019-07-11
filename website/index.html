@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/cover.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/minors.css">
+    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" media="screen and (max-width: 768px)" href="css/mobile.css">
+    <!-- <script src="https://cdn.jsdelivr.net/gh/umerkk164/needlessjs-prototype@master/needless.js"></script> -->
+    <script src="../needless.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>needlessjs</title>
+</head>
+
+<body>
+    <div class="cover">
+        <div class="container">
+            <img src="src/logo/main.png" alt="" id="big-logo">
+            <div>
+                <h1>needlessjs</h1>
+                <h1 id="by">by <a href="">umerkk164</a></h1>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <menu>
+                <ul id="navbar">
+                    <li class="selected">
+                        <a href="/website/">Getting Started</a>
+                    </li>
+                    <li>
+                        <a href="/website/documentation.html">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="">Examples</a>
+                    </li>
+                </ul>
+            </menu>
+
+            <h1>Another Library?</h1>
+            <hr>
+            <p class="lead">
+                Needless aims to make the process of working with canvases in JavaScript much simpler and more intuitive
+                than it currently is. It enables Sketches, Games, Computer Graphic projects, and more, with the
+                JavaScript that matters and without the need to work with DOM elements and to setup redundant code for
+                every project.
+            </p>
+
+            <div class="spacer"></div>
+
+            <div class="fr1fr1" id="example-show">
+                <div id="sketch-1"></div>
+                <div id="sketch-2"></div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <h1>Setting Up</h1>
+            <hr>
+            <h2>The HTML</h2>
+            <p class="lead">
+                Including needless into your project is very simple. Just copy the code below and paste it into your
+                <code>.html</code> file.
+                This will fetch the library file through CDN and make it available for use. If you prefer to work with
+                the library locally you may download the file and replace the link with the path of the file on your
+                computer
+            </p>
+
+            <pre class="language-html"><code><xmp>
+<script src="https://cdn.jsdelivr.net/gh/umerkk164/needlessjs-prototype@master/needless.js"></script>
+            </xmp></code></pre>
+
+            <div class="spacer"></div>
+
+            <h2>The JavaScript</h2>
+            <p class="lead">Now you need to add a new sketch to your project. Calling <code>new Sketch();</code> will
+                create a sketch with all default settings, which is good for now.</p>
+            <p class="lead">An object literal may be passed into the Sketch constructor. We will change the width and
+                the height of the Sketch. For a list of all available options, click <a>here</a>. Inside another
+                <code>script</code> tag in your <code>.html</code>, include the following code.</p>
+
+
+            <pre class="language-html"><code><xmp>
+<script>
+    var mysketch = new Sketch({ width: 600, height: 400 });
+</script>
+            </xmp></code></pre>
+
+            <div class="spacer"></div>
+
+            <p class="lead">Obviously the Sketch does not do much right now. But we can use the <code>init</code> method
+                to initiate the Sketch.
+                The <code>init</code> method accepts a function. You may use all Sketch drawing methods inside the
+                function in a local context without the need to use <code>this</code>.
+                For a list of all drawing methods, click <a href="">here</a>.
+            </p>
+            <p class="lead">We will then tell our init function to draw a few circles on the canvas. </p>
+
+            <pre class="language-javascript"><code><xmp>
+var mysketch = new Sketch({ width: 600, height: 400 });
+mysketch.init(function () {
+    fill(red); //sets the color to red
+    circle(30, 50, 25); //circle(x, y, radius)
+    circle(130, 20, 35);
+});
+            </xmp></code></pre>
+
+            <p class="lead">This is precisely it. Every sketch runs on a loop, and so after we initiate the Sketch we
+                can use the <code>loop</code> method to draw something new every frame.</p>
+            <p class="lead">We will now draw a circle at the mouse position using the <code>mouse Object</code>. Note
+                that <code>clear();</code> is used to erase the previous drawing every loop.</p>
+            <p class="tip">Try without the clear method and see what happens.</p>
+            <pre class="language-javascript"><code><xmp>
+var mysketch = new Sketch({ width: 600, height: 400 });
+mysketch.init();
+mysketch.loop(function () {
+    clear();
+    fill(red);
+    circle(mouse.position.x, mouse.position.y, 50);
+});
+
+Sketches.loop();
+            </xmp></code></pre>
+            <p class="info">Note that we include <code>Sketches.loop();</code> at the end to tell all our sketches to
+                start using the loop function we provided. This will make more sense when working with more than one
+                sketch.</p>
+            <div class="spacer"></div>
+            <h2>Now What?</h2>
+            <p class="lead">The possibilities from here are endless for you. But to fuel these adventures you will need
+                to learn more about the library. You can refer to the documents below to learn more about how each module works.
+            </p>
+            <menu>
+                <ul id="select">
+                    <li>
+                        <a href="documentation.html#options">Options</a>
+                    </li>
+                    <li>
+                        <a href="documentation.html#drawing">Drawing</a>
+                    </li>
+                    <li>
+                        <a href="documentation.html#events">Events</a>
+                    </li>
+                    <li>
+                        <a href="documentation.html#entities">Entities</a>
+                    </li>
+                    <li>
+                        <a href="documentation.html#vectors">Vectors</a>
+                    </li>
+                </ul>
+            </menu>
+        </div>
+    </main>
+
+    <footer class="main">
+        <div class="container">
+            <p>Above content is in every way merely for demonstration of how the needlessjs library works, and all
+                content present here in is property of the entity represented by @umerkk164, unless otherwise stated. If
+                any items have unwittingly been included without due credit or the inclusion of which breaches a
+                license/law, the publisher of the website will be pleased to make ammends at the earliest possible
+                opportunity.</p>
+        </div>
+    </footer>
+
+    <script src="js/prism.js"></script>
+    <script src="../examples/fractal/main.js"></script>
+    <script>
+        Sketches.loop();
+    </script>
+</body>
+
+</html>

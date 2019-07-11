@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/cover.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/minors.css">
+    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" media="screen and (max-width: 768px)" href="css/mobile.css">
+    <!-- <script src="https://cdn.jsdelivr.net/gh/umerkk164/needlessjs-prototype@master/needless.js"></script> -->
+    <script src="../needless.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>needlessjs</title>
+</head>
+
+<body>
+    <div class="cover">
+        <div class="container">
+            <img src="src/logo/main.png" alt="" id="big-logo">
+            <div>
+                <h1>needlessjs</h1>
+                <h1 id="by">Documentation</h1>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <menu>
+                <ul id="navbar">
+                    <li>
+                        <a href="/website/">Getting Started</a>
+                    </li>
+                    <li class="selected">
+                        <a href="/website/documentation.html">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="">Examples</a>
+                    </li>
+                </ul>
+            </menu>
+            <div class="fr2fr10">
+                <menu>
+                    <ul id="select" class="vertical">
+                        <li>
+                            <a href="#options">Options</a>
+                        </li>
+                        <li>
+                            <a href="#drawing">Drawing</a>
+                        </li>
+                        <li>
+                            <a href="#events">Events</a>
+                        </li>
+                        <li>
+                            <a href="#entities">Entities</a>
+                        </li>
+                        <li>
+                            <a href="#vectors">Vectors</a>
+                        </li>
+                    </ul>
+                </menu>
+                <section>
+                    <h2>Introduction</h2>
+                    <p class="lead">
+                        Apart from the general <code>init</code> and <code>loop</code> structure followed by needless,
+                        there are many other systems available to make sketches interactive, dynamic, and more seemless,
+                        while keeping the code easy to follow.
+                        Following are explanations as to how each system may be used.
+                    </p>
+                    <div class="spacer"></div>
+                    <h2 id="options">Options</h2>
+                    <pre><code class="language-javascript"><xml>new Sketch({ options });</xml></code></pre>
+                    <div class="spacer-half"></div>
+                    <p class="lead">You may pass an Object literal when making a new sketch. Properties passed inside
+                        this object are used to configure the sketch. The parameter is optional; if no object is passed
+                        the default settings are used.</p>
+
+                    <div class="fr2fr2fr8 table">
+
+                        <h3>Property</h3>
+                        <h3>Default</h3>
+                        <h3>Description</h3>
+
+                        <h4>width</h4>
+                        <span>400</span>
+                        <span>Forces the width of the sketch. Use <code>inherit</code> to use container's width.</span>
+
+                        <h4>height</h4>
+                        <span>= width</span>
+                        <span>Forces the height of the sketch. Use <code>inherit</code> to use container's
+                            height.</span>
+
+                        <h4>container</h4>
+                        <span>new &lt;div&gt;</span>
+                        <span>Every sketch needs a unique container. This may be created dynamically, or you may specify
+                            an <code>HTML div element</code> or an <code>id</code> for an existing div element. </span>
+
+                        <h4>layers</h4>
+                        <span>1</span>
+                        <span>A sketch can have mutliple canvases layered onto each other. Each canvas is absolutely
+                            positioned inside the div.</span>
+
+                        <h4>frameRate</h4>
+                        <span>30</span>
+                        <span>Denotes the requested frame rate, upto 60 (Depending on browser and power saving
+                            settings). Lower frame rates are forcefully limited.</span>
+
+                        <h4>scaleX</h4>
+                        <span>1</span>
+                        <span>Denotes the scale at which drawing is done horizontally.</span>
+
+                        <h4>scaleY</h4>
+                        <span>= scaleX</span>
+                        <span>Denotes the scale at which drawing is done vertically.</span>
+
+                        <h4>autoplay</h4>
+                        <span>true</span>
+                        <span>If true, the sketch starts looping as soon as <code>Sketches.loop();</code> is called. If
+                            false, the <code>doLoop</code> method has to be used on the sketch.</span>
+
+                    </div>
+
+                    <div class="spacer"></div>
+
+                    <h2 id="drawing">Drawing Methods</h2>
+                    <pre><code class="language-javascript"><xml>mysketch.circle(20, 30, 50);</xml></code></pre>
+                    <pre><code class="language-javascript"><xml></xml>mysketch.loop(function() {
+     circle(20, 30, 50);
+ });</xml></code></pre>
+
+
+                    <p class="info">parameter? denotes that the parameter is not required <br>
+                        parameter=value denotes that the parameter is optional and this value may be used as the default
+                        value
+                    </p>
+                    <p class="lead">Drawing functions may be called by referring to the local methods of a Sketch
+                        instance. Inside <code>loop</code> and <code>init</code>, and other functions that fetch methods
+                        into global, the following functions may be called globally. The current sketch scope is
+                        applied.</p>
+                    <div class="spacer"></div>
+
+                    <h3><code>stopLoop(duration?)</code></h3>
+                    <p class="lead">Stops the loop function for a specified duration in milliseconds or indefinitely.
+                        Does it asynchronously in the next available animation frame.</p>
+                    <h3><code>doLoop()</code></h3>
+                    <p class="lead">Starts the execution of the loop function. Does it asynchronously in the next
+                        available animation frame.</p>
+                    <h3><code>loopCount()</code></h3>
+                    <p class="lead">Returns the number of frames that have been counted since the beginning of the
+                        sketch.</p>
+                    <h3><code>frameRate(fps)</code></h3>
+                    <p class="lead">Set frames per second</p>
+                    <h3><code>addCanvas(canvas?)</code></h3>
+                    <p class="lead">Adds another layer to the sketch. If a Canvas Element is not specified, creates and
+                        pushes canvas itself.</p>
+                    <h3><code>setLayer(layer)</code></h3>
+                    <p class="lead">Change the current working canvas. Accepts layer number according to order of
+                        addition of canvas, starting from 0.</p>
+                    <h3><code>clearAll()</code></h3>
+                    <p class="lead">Erases all canvases</p>
+                    <h3><code>clear()</code></h3>
+                    <p class="lead">Erases the current canvas</p>
+                    <h3><code>loadImage(src)</code></h3>
+                    <p class="lead">Returns HTML Image Element from source</p>
+                    <h3><code>image(img, x, y, width?, height?)</code></h3>
+                    <p class="lead">Draws an image provided by an HTML Image Element.</p>
+                    <h3><code>background(red, green=red, blue=red, alpha=1)</code></h3>
+                    <p class="lead">Fills the current canvas with specified background</p>
+                    <h3><code>background(image)</code></h3>
+                    <p class="lead">Fills the current canvas with specified background</p>
+                    <h3><code>stroke(red, green=red, blue=red, alpha=1)</code></h3>
+                    <p class="lead">Sets the stroke color. RGB or HSLA</p>
+                    <h3><code>strokeWeight(weight)</code></h3>
+                    <p class="lead">Sets the stroke width</p>
+                    <h3><code>noStroke()</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>fill(red, green=red, blue=red, alpha=1)</code></h3>
+                    <p class="lead">Sets the fill color. RGB or HSLA</p>
+                    <h3><code>noFill()</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>rectMode(mode)</code></h3>
+                    <p class="lead">"CENTER" or "CORNER". Changes the way rectangles are drawn.</p>
+                    <h3><code>colorMode(mode)</code></h3>
+                    <p class="lead">Switches the color mode for the sketch. "rgb" or "hsb"</p>
+                    <h3><code>rect(x, y, width, height)</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>line(x1, y1, x2, y2)</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>ellipse(x, y, width, height=width)</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>circle(x, y, radius)</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>arc(x, y, radius, start, end)</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>text(string, x, y)</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>save()</code></h3>
+                    <p class="lead">Saves the current transformation state of the current canvas.</p>
+                    <h3><code>restore()</code></h3>
+                    <p class="lead">Restores the last transformation state of the current canvas.</p>
+                    <h3><code>translate(x, y)</code></h3>
+                    <p class="lead"></p>
+                    <h3><code>rotate(angle)</code></h3>
+                    <p class="lead">Angle is assumed in radians.</p>
+                    <h3><code>scale(x, y=x)</code></h3>
+                    <p class="lead"></p>
+
+                    <div class="spacer"></div>
+                    <h2 id="events">Events</h2>
+                    <p class="lead">All events compatible with HTML DOM Event Listeners can be used here. The event
+                        function is added as an event listener to the sketch container div. The function provided is
+                        called in the sketch scope, <code>this</code> will refer to the sketch. Sketch methods are
+                        fetched into global.</p>
+                    <p class="tip">Arrow functions may best be avoided since they do not allow <code>this</code>
+                        binding.</p>
+                    <pre><code class="language-javascript"><xml></xml>mysketch.on(event, function() {
+     //code
+ });</xml></code></pre>
+                    <h3>Example</h3>
+                    <pre><code class="language-javascript"><xml></xml>mysketch.on("mousedown", function() {
+     fill(255, 0, 0);
+     text("Mouse was clicked!", mouse.position.x, mouse.position.y);
+ });</xml></code></pre>
+
+                    <div class="spacer"></div>
+                    <h2 id="entities">Entities</h2>
+                    <p class="lead">If you need to work with many items in your sketch, it is always a good idea to have
+                        a system of handling independant entities collectively. The <code>Entity</code> class allows you
+                        to make custom entities, which can be stored, rendered and updated behind the scene.</p>
+                    <h3><code>Entity(x, y, {render, update, ...properties})</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="tip">Arrow functions may best be avoided since they do not allow <code>this</code>
+                        binding.</p>
+                    <div class="spacer-half"></div>
+
+                    <h3><code>&lt;Entity&gt;.render()</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">Use drawing methods to define how the entity should be rendered. This parameter is
+                        optional and if not passed, the default render function (empty) is used unless the class is
+                        extended and given a new render function.</p>
+                    <p class="info"><code>this</code> will refer to the entity instance. All drawing methods will be
+                        extracted into global context.</p>
+
+                    <div class="spacer-half"></div>
+                    <h3><code>&lt;Entity&gt;.update()</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">This function is to put code that pertains to how the state of the entity changes
+                        every loop call. For instance, how the <code>position</code> object inside the entity changes.
+                    </p>
+                    <p class="info"><code>this</code> will refer to the entity instance. All drawing methods will be
+                        extracted into global context.</p>
+
+                    <div class="spacer-half"></div>
+                    <h3><code>...properties</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">There are no specific properties that belong to any entity other than the position.
+                        You may specify here any properties you want to give to the entity and those will be adopted by
+                        the returned Entity instance. For example you may want to store the fill and stroke color.</p>
+
+                    <pre><code class="language-javascript"><xml></xml>
+class Ball extends Entity {
+    constructor(x, y, radius) {
+        super(x, y, { radius });
+        this.fill = Color(255,0,0);
+    }
+
+    render() {
+        fill(this.fill);
+        circle(this.position.x, this.position.y, this.radius);
+    }
+
+    update() {
+        this.position.add(Vector.random2D());
+    }
+}
+
+var myBall = new Ball(50, 60, 25); //returns new entity
+var myEntity = new Entity(50, 60, {
+    render() {
+        ellipse(this.position.x, this.position.y, 40);
+    },
+    update() {
+        this.position.mult(2);
+    }
+}); //returns new entity
+                    </xml></code></pre>
+
+                    <div class="spacer"></div>
+                    <h2 class="sub">Static Methods</h2>
+                    <p class="lead">Static methods are applied to the entities array inside the current sketch. If
+                        called outside a sketch scope, a sketch instance is expected as the last parameter. </p>
+
+                    <h3><code>Entity.add(Entity, sketch?)</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">Adds the entity object to the specified or current sketch. Better than using
+                        <code>push</code> after <code>Entity.get</code></p>
+
+                    <h3><code>Entity.loop(sketch?)</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">Loops through all entities and calls the <code>render</code> and <code>update</code>
+                        functions for each.</p>
+
+                    <h3><code>Entity.get(sketch?)</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">Returns all entities as an array. You can use any array methods on this array,
+                        including <code>forEach</code> and <code>filter</code>.</p>
+
+                    <h3><code>Entity.getByName(name, sketch?)</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">Returns entities with the specific name property value. Entities may be named
+                        manually when creating them.</p>
+
+                    <h3><code>Entity.loop(entity)</code></h3>
+                    <div class="spacer-third"></div>
+                    <p class="lead">Removes the specified entity from its sketch.</p>
+
+                    <div class="spacer"></div>
+                    <h2 id="vectors">Vectors</h2>
+                    <pre><code class="language-javascript"><xml>var result = new Vector(34, 5).mult(9).mag();</xml></code></pre>
+
+                    <div class="spacer-half"></div>
+                    <h2 class="sub">Vector Methods</h3>
+                        <div class="spacer-half"></div>
+
+                        <h3><code>&lt;Vector&gt;.add(vector)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.sub(vector)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.mult(vector)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.div(vector)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.mag()</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.magSq()</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.copy()</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.normalize()</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.setMag(num)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.limit(num)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.angle()</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.dot(vector2)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.getPerp()</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.set(x, y)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>&lt;Vector&gt;.rotate(angle)</code></h3>
+                        <p class="lead"></p>
+
+                        <div class="spacer"></div>
+
+                        <h2 class="sub">Static Methods</h2>
+                        <p class="tip">If you do not wish to change the original vector in any way, use these static
+                            methods.</p>
+
+                        <div class="spacer-half"></div>
+                        <h3><code>Vector.random2D()</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.add(vector1, vector2)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.sub(vector1, vector2)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.mult(vector1, n)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.div(vector1, n)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.normalize(vector1)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.div(vector1, n)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.dist(vector1, vector2)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.dot(vector1, vector2)</code></h3>
+                        <p class="lead"></p>
+                        <h3><code>Vector.areEqual(vector1, vector2)</code></h3>
+                        <p class="lead"></p>
+
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="main">
+        <div class="container">
+            <p>Above content is in every way merely for demonstration of how the needlessjs library works, and all
+                content present here in is property of the entity represented by @umerkk164, unless otherwise stated. If
+                any items have unwittingly been included without due credit or the inclusion of which breaches a
+                license/law, the publisher of the website will be pleased to make ammends at the earliest possible
+                opportunity.</p>
+        </div>
+    </footer>
+
+    <script src="js/prism.js"></script>
+    <script>
+        Sketches.loop();
+    </script>
+</body>
+
+</html>
