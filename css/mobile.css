@@ -16,7 +16,9 @@
     height: 150px;
     margin-right: 0px;
 }
-
+footer.main {
+    position: static;
+}
 footer.main .container {
     padding: 3rem 1rem;
 }
@@ -34,12 +36,12 @@ footer.main .container {
 }
 
 main p.lead, main p.info, main p.tip {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     line-height: 2rem;
 }
 
 main h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
 }
 
 .fr2fr10 {
@@ -56,7 +58,7 @@ main h1 {
 }
 
 .fr2fr2fr8 * {
-    font-size: 1.3rem;
+    font-size: 1rem;
 }
 
 .fr2fr2fr8 *:last-child {
@@ -65,13 +67,13 @@ main h1 {
 }
 
 main h2 {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 main h2.sub {
-    font-size: 2.25rem;
+    font-size: 2rem;
 }
 
 main h3 code {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
