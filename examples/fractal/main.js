@@ -14,9 +14,9 @@ const fractal = new Sketch(
 	.loop(function () {
 		length = (length + 1) % 150;
 		angle = (angle + 0.02) % TWO_PI;
-		if (length == 0) background(0);
+		background(0,0,0,80);
 		colorMode(1);
-		stroke(loopCount() % 255, 25, 150);
+		stroke(loopCount() % 255, (loopCount()/2) % 150, 150);
 		translate(width / 2, height);
 		branch(length, 10);
 		stroke((loopCount() - 100) % 255, 25, 150);
